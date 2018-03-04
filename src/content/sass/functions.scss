@@ -1,0 +1,58 @@
+$baseColorHue: 38;
+$baseColorSaturation: 24.5;
+$baseColorBrightness: 60;
+@function calculateRotation($red, $green, $blue) {
+  $hue: nth(rgb-to-hsl($red, $green, $blue), 1);
+  @return 0deg + $hue - $baseColorHue;
+}
+@function rgb-to-hsl($red, $green, $blue) {
+  $red: $red / 255;
+  $green: $green / 255;
+  $blue: $blue / 255;
+  $maxValue: max($red, $green, $blue);
+  $minValue: min($red, $green, $blue);
+  $lightness: ($maxValue + $minValue) / 2;
+  $hue: null;
+  $saturation: null;
+  @if ($maxValue == $minValue) {
+    $hue: 0;
+    $saturation: 0;
+  } @else {
+    $hue: calculateHue($red, $green, $blue);
+    $saturation: calculateSaturation($lightness, $maxValue, $minValue);
+  }
+  $hsl: floor($hue * 360), floor($saturation * 100), floor($lightness * 100);
+  @return $hsl;
+}
+ @function calculateHue($red, $green, $blue) {
+   $hue: null;
+   $maxValue: max($red, $green, $blue);
+   $minValue: min($red, $green, $blue);
+   $delta: $maxValue - $minValue;
+   @if($maxValue == $red) {
+     $hue: ($green - $blue) / $delta + if($green < $blue, 6, 0);
+   } @else if($maxValue == $green) {
+     $hue: ($blue - $red) / $delta + 2;
+   } @else if($maxValue == $blue) {
+     $hue: ($red - $green) / $delta + 4;
+   }
+   @return $hue / 6;
+ }
+ @function calculateSaturation($lightness, $maxValue, $minValue) {
+   $delta: $maxValue - $minValue;
+   $saturation: null;
+   @if($lightness > 0.5) {
+     $saturation: $delta / (2 - $delta);
+   } @else {
+      $saturation: $delta / ($maxValue + $minValue);
+   }
+   @return $saturation;
+ }
+ @function calculateSaturationFilter($red, $green, $blue) {
+   $saturation: nth(rgb-to-hsl($red, $green, $blue), 2);
+   @return percentage((500 + ($baseColorSaturation - $saturation)) / 100);
+ }
+ @function calculateBrightnessFilter($red, $green, $blue) {
+   $brightness: nth(rgb-to-hsl($red, $green, $blue), 3);
+   @return percentage((100 + ($brightness - $baseColorBrightness)) / 100);
+ }

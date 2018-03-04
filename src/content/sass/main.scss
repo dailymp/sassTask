@@ -1,0 +1,22 @@
+  @function get-color-pallete($variation, $color, $percentage) {
+    $variations: (
+      darken: darken($color, $percentage),
+      lighten: lighten($color, $percentage)
+    );
+    
+    @return map-get($variations, $variation);
+
+  }
+  @for $i from 1 through 6{  
+    .div-#{$i} {
+      $color: red;
+      background-color: get-color-pallete('darken', $color, $i + 20%);     
+    }
+  }
+  @for $i from 7 through 13{  
+    .div-#{$i} {
+      $color: red;
+      background-color: get-color-pallete('lighten', $color, $i + 20%);     
+    }
+  }
+  

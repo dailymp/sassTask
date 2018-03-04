@@ -1,0 +1,40 @@
+@import 'https://fonts.googleapis.com/css?family=Raleway';
+body {
+  font-family: 'Raleway', sans-serif;
+}
+.container-flex {
+    display: flex;
+    flex-direction: row;
+}
+.item {
+  width: 100px;
+  height: 100px;
+  color: white;
+  padding-top: 50px;
+  font-weight: bold;
+  font-size: 2em;
+  text-align: center;
+  flex-grow: 1;
+}
+.item.color-red {
+  background-color: red;
+}
+.item.color-blue {
+  background-color: blue;
+}
+.item.color-green {
+  background-color: green;
+  flex-grow: 2;
+}
+.item.color-brown {
+  background-color: brown;
+}
+.item.color-purple {
+  background-color: purple;
+}
+.item.color-cyan {
+  background-color: cyan;
+}
+.item.color-orange {
+  background-color: orange;
+}
